@@ -5,7 +5,7 @@
 
 # Code.gov API - Unlocking the potential of the Federal Government’s software
 
-Our backend API. This project is an Express.js application backed by Elasticsearch. Its primary function is to index and make America's source code discoverable and searchable.
+Our backend API. This project is an Express.js application backed by Elasticsearch. Its primary function is to index and make America's source code discoverable and searchable. An example of the functions of this api can be found on [code-gov](https://api.code.gov/docs/#/).
 
 ## Introduction
 
@@ -28,6 +28,16 @@ Please install the following dependencies before running this project:
 
 * [Node.js](https://nodejs.org/en/download/)
 * [Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+
+<details>
+  <summary>Click here for more info on installing and running Elasticsearch</summary>
+
+  To install Elasticsearch on your machine please follow the instructions found [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
+
+  We have found that using Elasticsearch within a [Docker](#Docker) container is one of the simplest ways to get up and running. We have included a [Docker](#Docker) compose file in this project that can help you get on your way.
+
+  Please take a look at the [Getting Started](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html) and [Set up Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html) sections in the Elastic documentaion.
+</details>
 
 Once node is installed, install the local npm dependencies
 
@@ -93,16 +103,6 @@ Before running any of the commands included in the `package.json` file there are
 This project uses Elasticsearch to store code repository metadata. As such, it is necessary to run an indexing process which will populate the necesary indexes in Elasticsearch.
 
 Make sure that Elasticsearch is running and is accessible.
-
-<details>
-  <summary>Click here for more info on installing and running Elasticsearch</summary>
-
-  To install Elasticsearch on your machine please follow the instructions found [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
-
-  We have found that using Elasticsearch within a [Docker](#Docker) container is one of the simplest ways to get up and running. We have included a [Docker](#Docker) compose file in this project that can help you get on your way.
-
-  Please take a look at the [Getting Started](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html) and [Set up Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html) sections in the Elastic documentaion.
-</details>
 
 Once verified that Elasticsearch is up execute:
 
@@ -193,7 +193,7 @@ For more information on how to use Docker volumes take a look at:
 
 #### Container Env
 
-The code-gov-api container accepts a number of environment variables. They are the same variables found [here](#Environment-Variables).
+The code-gov-api container accepts a number of environment variables. They are the same variables found [here](#environment-variables).
 
 <details>
   <summary>Click here for an example</summary>
@@ -207,7 +207,7 @@ The code-gov-api container accepts a number of environment variables. They are t
 
 </details>
 
-### Docker compose
+### Docker Compose
 
 Docker compose lets you recreate a complete environment for the code.gov API. The `docker-compose.yml` file lets us define how these services are stood up, how they relate to each other, and manages other low level things. For more detailed information on Docker Compose take a look at [https://docs.docker.com/compose/](https://docs.docker.com/compose/).
 
@@ -221,6 +221,34 @@ This command will build a new code-gov-api image, download an Elasticsearch imag
 
 Once everything is up and running you can access the API in your browser at: `http://localhost:3001/api`.
 If you only want to build the code-gov-api image you can execute `docker-compose build`.
+A prebuilt image can be found on [dockerhub](https://hub.docker.com/r/codegov/code-gov-api) as well.
+
+## Docker Compose Environment Variables
+
+Docker environment variables can be passed in or can be set using the `.env.sample` file. Simply copy the `.env.sample` file to `.env`. Below are the supported variables.
+
+
+```
+NODE_ENV = {production, staging, development}
+LOGGER_LEVEL = {info, debug}
+USE_HSTS = {true, false}
+HSTS_MAX_AGE = {315360000}
+HSTS_PRELOAD = {true, false}
+PORT = {3000}
+NEW_RELIC_APP_NAME = {new-relic-name}
+NEW_RELIC_LICENSE_KEY = {new_relic_license_key}
+GET_REMOTE_METADATA = {true, false}
+REMOTE_METADATA_LOCATION = {https://raw.githubusercontent.com/GSA/code-gov-data/master/agency_metadata.json}
+ELASTICSEARCH_SERVICE_NAME = {code_gov_elasticsearch}
+ES_HOST = {elasticsearch}
+ES_USER = {elastic}
+ES_PASSWORD = {changeme}
+GITHUB_API_KEY = {changeme}
+```
+
+## Usage & Testing
+
+Once the environment is up and running, unit and integration tests can be run using `mocha` by running `npm run test`. 
 
 ## Contributing
 
