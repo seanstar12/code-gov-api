@@ -1,4 +1,4 @@
-FROM node:9.11.1-onbuild
+FROM node:lts-jessie
 
 ARG NEW_RELIC_KEY
 ENV NEW_RELIC_KEY=${NEW_RELIC_KEY}
@@ -20,4 +20,8 @@ ENV ES_PASSWORD=${ES_PASSWORD}
 
 VOLUME "/usr/src/app"
 
-EXPOSE 3001/tcp
+COPY . /usr/src/app
+
+RUN cd /usr/src/app && npm install && npm cache clean --force
+
+EXPOSE 3000/tcp
